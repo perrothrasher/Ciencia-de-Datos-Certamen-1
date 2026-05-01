@@ -1,0 +1,126 @@
+======================================================================
+  RESUMEN EJECUTIVO - MORTALIDAD CARDIACA INTRAHOSPITALARIA 2020
+======================================================================
+
+[1] DATASET
+----------------------------------------------------------------------
+  Casos cardiacos (DIAG1 ~ I??) ..........     112,709
+  Tasa de mortalidad cardiaca real .......      6.05 %
+  Numero de features tras pipeline .......        136
+
+[2] MANEJO DEL DESBALANCE
+----------------------------------------------------------------------
+  Train ORIGINAL    : vivos=84,975 | fallecidos=5,458  (6.04%)
+  Train BALANCEADO  : vivos=84,975 | fallecidos=84,955  (49.99%)
+  Test (sin tocar)  : vivos=20,916 | fallecidos=1,360  (6.11%)
+  Tecnica: Oversampling de la clase minoritaria + classWeight de refuerzo
+
+[3] COMPARATIVA DE MODELOS (test set sin balancear)
+----------------------------------------------------------------------
+                          modelo  AUC_ROC  AUC_PR     F1  Recall_pos  Prec_pos
+                     GBT Best CV   0.7780  0.2243 0.8007      0.6581    0.1399
+GBTClassifier (50 iter, depth=5)   0.7681  0.2074 0.7932      0.6581    0.1349
+       LinearSVC (regParam=1e-4)   0.7504  0.1587 0.6945      0.7809    0.1078
+               LinearSVC Best CV   0.7499  0.1589 0.7178      0.7632    0.1132
+              Bagging (10 trees)   0.7155  0.1740 0.7857      0.5978    0.1213
+  LinearSVC Ridge (regParam=1.0)   0.6075  0.0857 0.5902      0.6794    0.0754
+           Baseline DecisionTree   0.4714  0.0538 0.7837      0.5757    0.1168
+
+[4] MEJOR MODELO
+----------------------------------------------------------------------
+  Modelo ganador: GBT Best CV
+    AUC-ROC ............ 0.7780
+    AUC-PR ............. 0.2243
+    F1 ................. 0.8007
+    Recall (fallecido) . 0.6581
+    Precision (falle) .. 0.1399
+
+[5] HIPERPARAMETROS OPTIMOS (CrossValidator)
+----------------------------------------------------------------------
+  LinearSVC -> regParam optimo .... 0.001
+  GBT -> maxDepth ................. 6
+  GBT -> maxIter .................. 80
+  GBT -> stepSize ................. 0.1
+
+[6] TOP 15 VARIABLES - GBTClassifier (importancia)
+----------------------------------------------------------------------
+                                                                                               feature      imp
+                                                                                          num_vec_sc_0 0.179504
+                                                                                         DIAG1_oh_I200 0.046335
+                                                                                         DIAG1_oh_I802 0.042833
+                                                                                         DIAG1_oh_I489 0.040863
+                                                                                         DIAG1_oh_I609 0.031134
+PERTENENCIA_ESTABLECIMIENTO_SALUD_oh_No Pertenecientes al Sistema Nacional de Servicios de Salud, SNSS 0.027221
+                                                                                 GRUPO_EDAD_oh_70 a 79 0.027048
+                                                                                          num_vec_sc_1 0.026270
+                                                                                         DIAG1_oh_I10X 0.025261
+                                                                                         DIAG1_oh_I839 0.024052
+                                                                                         DIAG1_oh_I618 0.021875
+                                                                                         DIAG1_oh_I629 0.020362
+                                                                                         DIAG1_oh_I251 0.020329
+                                                                                 GRUPO_EDAD_oh_50 a 59 0.019478
+                                                                                         DIAG1_oh_I480 0.017874
+
+[7] TOP 15 VARIABLES - LinearSVC (signo del coeficiente)
+----------------------------------------------------------------------
+  Coef positivo = aumenta riesgo de fallecimiento
+  Coef negativo = lo disminuye
+
+               feature    coef
+         DIAG1_oh_I619  1.6170
+         DIAG1_oh_I609  1.4750
+         DIAG1_oh_I618  1.4241
+         DIAG1_oh_I710  1.2972
+         DIAG1_oh_I629  1.2586
+         DIAG1_oh_I612  1.2196
+         DIAG1_oh_I850  1.2023
+         DIAG1_oh_I200 -1.1454
+         DIAG1_oh_I330  1.1238
+         DIAG1_oh_I802 -1.0954
+GRUPO_EDAD_oh_90 y más  1.0907
+         DIAG1_oh_I608  1.0871
+         DIAG1_oh_I610  1.0372
+         DIAG1_oh_I480 -1.0107
+         DIAG1_oh_I489 -0.9946
+
+[8] MATRIZ DE CONFUSION (derivada de Recall y Precision)
+----------------------------------------------------------------------
+                       Predicho VIVO   Predicho FALLECIDO
+  Real VIVO       ->       15,414           5,502
+  Real FALLECIDO  ->          465             895
+
+  Sensibilidad (recall+) = TP/(TP+FN) = 0.6581
+  Especificidad          = TN/(TN+FP) = 0.7369
+  Precision (PPV)        = TP/(TP+FP) = 0.1399
+  VPN                    = TN/(TN+FN) = 0.9707
+  Accuracy               = (TP+TN)/N  = 0.7321
+
+[9] METRICAS A DISTINTOS UMBRALES (GBT)
+----------------------------------------------------------------------
+    Umbral |  Recall+ |  Precision+ |       F1 |  % alertas
+  -------- | -------- | ----------- | -------- | ----------
+      0.20 |   0.9713 |      0.0793 |   0.1466 |     74.78 %
+      0.30 |   0.9287 |      0.0906 |   0.1652 |     62.55 %
+      0.40 |   0.8324 |      0.1104 |   0.1950 |     46.03 %
+      0.50 |   0.6581 |      0.1399 |   0.2307 |     28.72 %
+      0.60 |   0.5140 |      0.1672 |   0.2523 |     18.76 %
+      0.70 |   0.3162 |      0.2299 |   0.2663 |      8.39 %
+      0.80 |   0.1456 |      0.3511 |   0.2058 |      2.53 %
+
+[10] EFECTO DEL BAGGING
+----------------------------------------------------------------------
+  AUC-ROC arbol unico ........ 0.4714
+  AUC-ROC bagging (10 trees) . 0.7155
+  Mejora absoluta ............ +24.41 puntos porcentuales de AUC
+
+[11] CONCLUSIONES
+----------------------------------------------------------------------
+  - GBT Best CV es el modelo recomendado.
+  - AUC-ROC de 0.778 indica buena capacidad discriminativa.
+  - Variables clinicamente coherentes dominan el ranking de importancia.
+  - Con umbral 0.5 el modelo detecta el 65.8% de los fallecimientos.
+  - El desbalance se mitigo con oversampling + classWeight.
+
+======================================================================
+  FIN DEL RESUMEN
+======================================================================

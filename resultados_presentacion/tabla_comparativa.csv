@@ -1,0 +1,8 @@
+modelo,AUC_ROC,AUC_PR,F1,Recall_pos,Prec_pos
+GBT Best CV,0.778,0.2243,0.8007,0.6581,0.1399
+"GBTClassifier (50 iter, depth=5)",0.7681,0.2074,0.7932,0.6581,0.1349
+LinearSVC (regParam=1e-4),0.7504,0.1587,0.6945,0.7809,0.1078
+LinearSVC Best CV,0.7499,0.1589,0.7178,0.7632,0.1132
+Bagging (10 trees),0.7155,0.174,0.7857,0.5978,0.1213
+LinearSVC Ridge (regParam=1.0),0.6075,0.0857,0.5902,0.6794,0.0754
+Baseline DecisionTree,0.4714,0.0538,0.7837,0.5757,0.1168
