@@ -10,30 +10,32 @@
 
 [2] MANEJO DEL DESBALANCE
 ----------------------------------------------------------------------
-  Train ORIGINAL    : vivos=84,975 | fallecidos=5,458  (6.04%)
-  Train BALANCEADO  : vivos=84,975 | fallecidos=84,955  (49.99%)
-  Test (sin tocar)  : vivos=20,916 | fallecidos=1,360  (6.11%)
+  Train ORIGINAL    : vivos=84,875 | fallecidos=5,489  (6.07%)
+  Train BALANCEADO  : vivos=84,875 | fallecidos=84,961  (50.03%)
+  Test (sin tocar)  : vivos=21,016 | fallecidos=1,329  (5.95%)
   Tecnica: Oversampling de la clase minoritaria + classWeight de refuerzo
 
 [3] COMPARATIVA DE MODELOS (test set sin balancear)
 ----------------------------------------------------------------------
                           modelo  AUC_ROC  AUC_PR     F1  Recall_pos  Prec_pos
-                     GBT Best CV   0.7780  0.2243 0.8007      0.6581    0.1399
-GBTClassifier (50 iter, depth=5)   0.7681  0.2074 0.7932      0.6581    0.1349
-       LinearSVC (regParam=1e-4)   0.7504  0.1587 0.6945      0.7809    0.1078
-               LinearSVC Best CV   0.7499  0.1589 0.7178      0.7632    0.1132
-              Bagging (10 trees)   0.7155  0.1740 0.7857      0.5978    0.1213
-  LinearSVC Ridge (regParam=1.0)   0.6075  0.0857 0.5902      0.6794    0.0754
-           Baseline DecisionTree   0.4714  0.0538 0.7837      0.5757    0.1168
+                     GBT Best CV   0.7781  0.2230 0.8016      0.6629    0.1372
+GBTClassifier (50 iter, depth=5)   0.7725  0.2111 0.7975      0.6682    0.1352
+               LinearSVC Best CV   0.7493  0.1501 0.7160      0.7750    0.1110
+               LinearSVC Best CV   0.7493  0.1501 0.7160      0.7750    0.1110
+               LinearSVC Best CV   0.7493  0.1501 0.7160      0.7750    0.1110
+       LinearSVC (regParam=1e-4)   0.7471  0.1529 0.6869      0.7840    0.1031
+              Bagging (10 trees)   0.7200  0.1692 0.7809      0.6132    0.1175
+  LinearSVC Ridge (regParam=1.0)   0.6166  0.0874 0.6004      0.6840    0.0753
+           Baseline DecisionTree   0.4734  0.0520 0.7754      0.6080    0.1139
 
 [4] MEJOR MODELO
 ----------------------------------------------------------------------
   Modelo ganador: GBT Best CV
-    AUC-ROC ............ 0.7780
-    AUC-PR ............. 0.2243
-    F1 ................. 0.8007
-    Recall (fallecido) . 0.6581
-    Precision (falle) .. 0.1399
+    AUC-ROC ............ 0.7781
+    AUC-PR ............. 0.2230
+    F1 ................. 0.8016
+    Recall (fallecido) . 0.6629
+    Precision (falle) .. 0.1372
 
 [5] HIPERPARAMETROS OPTIMOS (CrossValidator)
 ----------------------------------------------------------------------
@@ -45,21 +47,21 @@ GBTClassifier (50 iter, depth=5)   0.7681  0.2074 0.7932      0.6581    0.1349
 [6] TOP 15 VARIABLES - GBTClassifier (importancia)
 ----------------------------------------------------------------------
                                                                                                feature      imp
-                                                                                          num_vec_sc_0 0.179504
-                                                                                         DIAG1_oh_I200 0.046335
-                                                                                         DIAG1_oh_I802 0.042833
-                                                                                         DIAG1_oh_I489 0.040863
-                                                                                         DIAG1_oh_I609 0.031134
-PERTENENCIA_ESTABLECIMIENTO_SALUD_oh_No Pertenecientes al Sistema Nacional de Servicios de Salud, SNSS 0.027221
-                                                                                 GRUPO_EDAD_oh_70 a 79 0.027048
-                                                                                          num_vec_sc_1 0.026270
-                                                                                         DIAG1_oh_I10X 0.025261
-                                                                                         DIAG1_oh_I839 0.024052
-                                                                                         DIAG1_oh_I618 0.021875
-                                                                                         DIAG1_oh_I629 0.020362
-                                                                                         DIAG1_oh_I251 0.020329
-                                                                                 GRUPO_EDAD_oh_50 a 59 0.019478
-                                                                                         DIAG1_oh_I480 0.017874
+                                                                                          num_vec_sc_0 0.171549
+                                                                                         DIAG1_oh_I200 0.044675
+                                                                                         DIAG1_oh_I802 0.042868
+                                                                                         DIAG1_oh_I609 0.041798
+                                                                                          num_vec_sc_1 0.036406
+                                                                                         DIAG1_oh_I489 0.032242
+                                                                                         DIAG1_oh_I10X 0.028472
+PERTENENCIA_ESTABLECIMIENTO_SALUD_oh_No Pertenecientes al Sistema Nacional de Servicios de Salud, SNSS 0.028212
+                                                                                         DIAG1_oh_I839 0.024653
+                                                                                 GRUPO_EDAD_oh_70 a 79 0.024010
+                                                                                         DIAG1_oh_I64X 0.020713
+                                                                                         DIAG1_oh_I251 0.020581
+                                                                                 GRUPO_EDAD_oh_50 a 59 0.018572
+                                                                                         DIAG1_oh_I480 0.018527
+                                                                                         DIAG1_oh_I618 0.017999
 
 [7] TOP 15 VARIABLES - LinearSVC (signo del coeficiente)
 ----------------------------------------------------------------------
@@ -67,58 +69,58 @@ PERTENENCIA_ESTABLECIMIENTO_SALUD_oh_No Pertenecientes al Sistema Nacional de Se
   Coef negativo = lo disminuye
 
                feature    coef
-         DIAG1_oh_I619  1.6170
-         DIAG1_oh_I609  1.4750
-         DIAG1_oh_I618  1.4241
-         DIAG1_oh_I710  1.2972
-         DIAG1_oh_I629  1.2586
-         DIAG1_oh_I612  1.2196
-         DIAG1_oh_I850  1.2023
-         DIAG1_oh_I200 -1.1454
-         DIAG1_oh_I330  1.1238
-         DIAG1_oh_I802 -1.0954
-GRUPO_EDAD_oh_90 y más  1.0907
-         DIAG1_oh_I608  1.0871
-         DIAG1_oh_I610  1.0372
-         DIAG1_oh_I480 -1.0107
-         DIAG1_oh_I489 -0.9946
+         DIAG1_oh_I619  1.6525
+         DIAG1_oh_I609  1.5039
+         DIAG1_oh_I618  1.3594
+         DIAG1_oh_I629  1.2727
+         DIAG1_oh_I710  1.2527
+         DIAG1_oh_I608  1.2339
+         DIAG1_oh_I612  1.1462
+         DIAG1_oh_I850  1.1363
+         DIAG1_oh_I200 -1.1236
+         DIAG1_oh_I330  1.1104
+         DIAG1_oh_I802 -1.0674
+GRUPO_EDAD_oh_90 y más  1.0618
+         DIAG1_oh_I480 -1.0316
+         DIAG1_oh_I610  1.0227
+         DIAG1_oh_I10X -1.0209
 
 [8] MATRIZ DE CONFUSION (derivada de Recall y Precision)
 ----------------------------------------------------------------------
                        Predicho VIVO   Predicho FALLECIDO
-  Real VIVO       ->       15,414           5,502
-  Real FALLECIDO  ->          465             895
+  Real VIVO       ->       15,476           5,540
+  Real FALLECIDO  ->          448             881
 
-  Sensibilidad (recall+) = TP/(TP+FN) = 0.6581
-  Especificidad          = TN/(TN+FP) = 0.7369
-  Precision (PPV)        = TP/(TP+FP) = 0.1399
-  VPN                    = TN/(TN+FN) = 0.9707
-  Accuracy               = (TP+TN)/N  = 0.7321
+  Sensibilidad (recall+) = TP/(TP+FN) = 0.6629
+  Especificidad          = TN/(TN+FP) = 0.7364
+  Precision (PPV)        = TP/(TP+FP) = 0.1372
+  VPN                    = TN/(TN+FN) = 0.9719
+  Accuracy               = (TP+TN)/N  = 0.7320
 
 [9] METRICAS A DISTINTOS UMBRALES (GBT)
 ----------------------------------------------------------------------
     Umbral |  Recall+ |  Precision+ |       F1 |  % alertas
   -------- | -------- | ----------- | -------- | ----------
-      0.20 |   0.9713 |      0.0793 |   0.1466 |     74.78 %
-      0.30 |   0.9287 |      0.0906 |   0.1652 |     62.55 %
-      0.40 |   0.8324 |      0.1104 |   0.1950 |     46.03 %
-      0.50 |   0.6581 |      0.1399 |   0.2307 |     28.72 %
-      0.60 |   0.5140 |      0.1672 |   0.2523 |     18.76 %
-      0.70 |   0.3162 |      0.2299 |   0.2663 |      8.39 %
-      0.80 |   0.1456 |      0.3511 |   0.2058 |      2.53 %
+      0.20 |   0.9661 |      0.0768 |   0.1423 |     74.81 %
+      0.30 |   0.9202 |      0.0875 |   0.1598 |     62.56 %
+      0.40 |   0.8330 |      0.1086 |   0.1921 |     45.63 %
+      0.50 |   0.6629 |      0.1372 |   0.2273 |     28.74 %
+      0.60 |   0.5388 |      0.1620 |   0.2490 |     19.79 %
+      0.70 |   0.3145 |      0.2318 |   0.2669 |      8.07 %
+      0.80 |   0.1543 |      0.3616 |   0.2162 |      2.54 %
 
 [10] EFECTO DEL BAGGING
 ----------------------------------------------------------------------
-  AUC-ROC arbol unico ........ 0.4714
-  AUC-ROC bagging (10 trees) . 0.7155
-  Mejora absoluta ............ +24.41 puntos porcentuales de AUC
+  AUC-ROC arbol unico ........ 0.4734
+  AUC-ROC bagging (10 trees) . 0.7200
+  Mejora absoluta ............ +24.66 puntos porcentuales de AUC
 
 [11] CONCLUSIONES
 ----------------------------------------------------------------------
   - GBT Best CV es el modelo recomendado.
   - AUC-ROC de 0.778 indica buena capacidad discriminativa.
   - Variables clinicamente coherentes dominan el ranking de importancia.
-  - Con umbral 0.5 el modelo detecta el 65.8% de los fallecimientos.
+  - Con umbral 0.5 el modelo detecta el 66.3% de los fallecimientos.
   - El desbalance se mitigo con oversampling + classWeight.
 
 ======================================================================
